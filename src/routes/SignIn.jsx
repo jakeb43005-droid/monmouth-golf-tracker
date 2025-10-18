@@ -1,7 +1,6 @@
-import { useState, useRef } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import { supabase } from '../lib/supabase'
-
+import {useState, useRef} from 'react'
+import {useNavigate, Link} from 'react-router-dom'
+import {supabase} from '../lib/supabase'
 export default function SignIn() {
   const go = useNavigate()
   const [email, setEmail] = useState('')
@@ -12,15 +11,12 @@ export default function SignIn() {
 
   async function onSubmit(e) {
     e.preventDefault()
-
     const emailClean = email.trim().toLowerCase()
     const passClean = password
-
     setErrorMsg('')
     setLoading(true)
-
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const {error} = await supabase.auth.signInWithPassword({
         email: emailClean,
         password: passClean,
       })
@@ -30,7 +26,6 @@ export default function SignIn() {
         requestAnimationFrame(() => errorRef.current?.focus())
         return
       }
-
       go('/dashboard')
     } catch {
       setErrorMsg('Network issue — try again in a moment.')
@@ -39,11 +34,11 @@ export default function SignIn() {
       setLoading(false)
     }
   }
-
+  
   return (
     <form
       onSubmit={onSubmit}
-      style={{ padding: 20, display: 'grid', gap: 12, maxWidth: 360, margin: '0 auto' }}
+      style={{ padding: 20, display: 'grid', gap: 14, maxWidth: 360, margin: '0 auto'}}
       noValidate
     >
       <h2>Sign In</h2>
@@ -56,7 +51,6 @@ export default function SignIn() {
         autoComplete="email"
         required
       />
-
       <input
         type="password"
         placeholder="Password"
@@ -66,7 +60,7 @@ export default function SignIn() {
         required
       />
 
-      {errorMsg && (
+      {errorMsg &&(
         <p
           ref={errorRef}
           tabIndex={-1}
@@ -76,14 +70,13 @@ export default function SignIn() {
           {errorMsg}
         </p>
       )}
-
-      <button type="submit" disabled={loading} style={{ cursor: loading ? 'not-allowed' : 'pointer' }}>
-        {loading ? 'Signing in…' : 'Sign In'}
+      <button type="submit" 
+      disabled={loading}
+      style={{cursor: loading ? 'not-allowed' : 'pointer'}}>
+      {loading ? 'Signing in…' : 'Sign In'}
       </button>
-
-      <p style={{ fontSize: 14, marginTop: 8 }}>
+      <p style={{fontSize: 14, marginTop: 8}}>
         Don’t have an account? <Link to="/signup">Create one</Link>
       </p>
-    </form>
-  )
+    </form>)
 }

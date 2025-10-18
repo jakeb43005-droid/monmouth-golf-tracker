@@ -6,25 +6,38 @@ import './index.css'
 import SignIn from './routes/SignIn.jsx'
 import SignUp from './routes/SignUp.jsx'
 import Dashboard from './routes/Dashboard.jsx'
+import logo from './assets/logo.png'
 
 function Home() {
   return (
-    <div style={{ padding: 24 }}>
-      <h1>Golf Tracker</h1>
-      <p><Link to="/signin">Sign In</Link> · <Link to="/signup">Sign Up</Link></p>
-    </div>
+    <main className="home">
+      <header className="home__header">
+        <img className="home_logo" src= {logo} alt="LOGO"  />
+        <h1 className="home__title">Monmouth County Golf Tracker</h1>
+        <p className="home__desc">Start Tracking Your Rounds Today! </p>
+       </header>
+
+      <section className="home__card">
+       <div className="home__actions">
+          <Link to="/signin" className="btn btn--primary">Sign In</Link>
+          <Link to="/signup" className="btn btn--ghost">Create Account</Link>
+        </div>
+        <p className="home__footnote">New? Create a free account to get started </p>
+       </section > 
+    </main>
   )
 }
 
+
 const router = createBrowserRouter([
-  { path: '/', element: <Home /> },
-  { path: '/signin', element: <SignIn /> },
-  { path: '/signup', element: <SignUp /> },
-  { path: '/dashboard', element: <Dashboard /> },
+  {path: '/',element: <Home/> },
+  {path: '/signin',element: <SignIn/> },
+  {path: '/signup',element: <SignUp/> },
+  {path: '/dashboard',element: <Dashboard/>},
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+  <RouterProvider router={router}/>
   </React.StrictMode>
 )
