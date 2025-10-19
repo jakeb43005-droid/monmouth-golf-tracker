@@ -30,7 +30,7 @@
 }
 
 html, body, #root {height: 100%;}
-body{
+body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
@@ -46,7 +46,7 @@ a:hover{ color:#535bf2; }
 h1{ font-size: clamp(28px, 4vw, 40px); line-height: 1.1; margin: 0 0 8px; }
 
 /* all buttons outline*/
-button{
+button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -67,6 +67,42 @@ button:active{transform: translateY(1px);}
 }
 /*endbuttons */
 
+/*forms*/
+.form{ display: grid; gap: 14px; margin-top: 10px;}
+.field{display: grid; gap: 6px;}
+.field label{font-size: 14px; color: var(--muted);}
+
+.field input {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  outline: none;
+}
+
+.field input::placeholder {
+  color:color-mix(in oklab,
+  var(--muted) 70%, transparent);}
+.field input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--ring);
+}
+/*endforms*/
+
+/*errortxt*/
+.form__error {
+  margin:2px 0 0;
+  color: #ef4444;
+  font-size: 14px;
+}
+
+/*actions&meta*/
+.form__actions{display: grid; gap: 12px; margin-top: 4px;}
+.form__meta{margin: 0; font-size: 14px; color: var(--muted);}
+.form__meta a {font-weight:620;}
+
 /*startofhomepage*/
 .home{
   min-height: 100%;
@@ -79,7 +115,7 @@ button:active{transform: translateY(1px);}
 .home__desc{margin:0; color:var(--muted); font-size:14px;}
 
 .home__card{
-  width:100%; max-width:420px;
+  width:100%; max-width:4px;
   background:var(--panel);
   border:1px solid var(--border);
   border-radius:14px;
@@ -98,7 +134,7 @@ button:active{transform: translateY(1px);}
 .home__footnote{margin:14px 2px 4px; 
 color:var(--muted);font-size:12px;}
 
-.btn{
+.btn {
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -120,7 +156,7 @@ color:var(--muted);font-size:12px;}
 .btn--ghost{background:transparent; color:var(--text); border:1px solid var(--border);}
 .btn--ghost:hover{background:rgba(255,255,255,.05);}
 
-.home__logo{
+.home__logo {
   width: 64px; 
   height: 64px;
   object-fit: contain;

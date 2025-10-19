@@ -20,7 +20,6 @@ export default function SignIn() {
         email: emailClean,
         password: passClean,
       })
-
       if (error) {
         setErrorMsg(error.message || 'Sign in failed')
         requestAnimationFrame(() => errorRef.current?.focus())
@@ -36,47 +35,51 @@ export default function SignIn() {
   }
   
   return (
-    <form
-      onSubmit={onSubmit}
-      style={{ padding: 20, display: 'grid', gap: 14, maxWidth: 360, margin: '0 auto'}}
-      noValidate
-    >
-      <h2>Sign In</h2>
+   <main className="home">
+      <section className="home__card">
+        <h2 style={{margin:0}}>Sign In</h2>
+        <form onSubmit={onSubmit} className="form" noValidate>
+          <div className="field">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
+              required
+              disabled={loading} />
+          </div>
+          <div className="field">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              name="current-password"
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+              required
+              disabled={loading}/>
+          </div>
+          {errorMsg && <p className="form__error">{errorMsg}</p>}
+          <div className="form__actions">
+            <button
+              type="submit"
+              className="btn btn--primary"
+              disabled={loading || !canSubmit} >
+              {loading ?'Signing in…' : 'Sign In'}
+            </button>
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        autoComplete="email"
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        autoComplete="current-password"
-        required
-      />
-
-      {errorMsg &&(
-        <p
-          ref={errorRef}
-          tabIndex={-1}
-          style={{ color: 'red', marginTop: 4 }}
-          aria-live="assertive"
-        >
-          {errorMsg}
-        </p>
-      )}
-      <button type="submit" 
-      disabled={loading}
-      style={{cursor: loading ? 'not-allowed' : 'pointer'}}>
-      {loading ? 'Signing in…' : 'Sign In'}
-      </button>
-      <p style={{fontSize: 14, marginTop: 8}}>
-        Don’t have an account? <Link to="/signup">Create one</Link>
-      </p>
-    </form>)
+            <p className="form__meta">
+              Don’t have an account? <Link to="/signup">Create one</Link>
+            </p>
+          </div>
+        </form>
+      </section>
+    </main>
+    )
 }
