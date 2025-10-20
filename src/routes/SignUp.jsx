@@ -86,7 +86,7 @@ export default function SignUp() {
         {loading ? 'Creating…' : 'Create account'}
       </button>
 
-      <p style={{ fontSize: 14, marginTop: 8 }}>
+      <p style={{ fontSize: 14, marginTop: 8}}>
         Have an account? <Link to="/signin">Sign in</Link>
       </p>
     </form>

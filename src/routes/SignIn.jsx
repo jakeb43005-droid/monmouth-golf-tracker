@@ -1,6 +1,7 @@
 import {useState, useRef} from 'react'
 import {useNavigate, Link} from 'react-router-dom'
 import {supabase} from '../lib/supabase'
+import logo2 from '../assets/logo2.png'
 export default function SignIn() {
   const go = useNavigate()
   const [email, setEmail] = useState('')
@@ -34,9 +35,11 @@ export default function SignIn() {
     }
   }
   
+  const canSubmit =email.trim() && password 
   return (
    <main className="home">
-      <section className="home__card">
+      <section className="home__card logo__card">
+         <img className="logo2__small" src={logo2} alt="Monmouth County Golf" />
         <h2 style={{margin:0}}>Sign In</h2>
         <form onSubmit={onSubmit} className="form" noValidate>
           <div className="field">
@@ -45,7 +48,7 @@ export default function SignIn() {
               id="email"
               name="email"
               type="email"
-              placeholder="you@example.com"
+              placeholder="your@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               autoComplete="email"
@@ -70,7 +73,7 @@ export default function SignIn() {
             <button
               type="submit"
               className="btn btn--primary"
-              disabled={loading || !canSubmit} >
+              disabled={loading || !canSubmit}>
               {loading ?'Signing in…' : 'Sign In'}
             </button>
 

@@ -39,11 +39,11 @@ body {
 }
 
 /*all links*/
-a{ color:#646cff; text-decoration:none; font-weight:500; }
-a:hover{ color:#535bf2; }
+a{color:#646cff; text-decoration:none; font-weight:500;}
+a:hover{color:#535bf2;}
 
 /*all headings */
-h1{ font-size: clamp(28px, 4vw, 40px); line-height: 1.1; margin: 0 0 8px; }
+h1{font-size: clamp(28px, 4vw, 40px); line-height: 1.1; margin: 0 0 8px;}
 
 /* all buttons outline*/
 button {
@@ -67,13 +67,13 @@ button:active{transform: translateY(1px);}
 }
 /*endbuttons */
 
-/*forms*/
+/*forms&input*/
 .form{ display: grid; gap: 14px; margin-top: 10px;}
 .field{display: grid; gap: 6px;}
-.field label{font-size: 14px; color: var(--muted);}
+.field label{font-size: 20px; color: var(--muted);}
 
 .field input {
-  height: 40px;
+  height: 100px;
   padding: 0 12px;
   border-radius: 10px;
   border: 1px solid var(--border);
@@ -89,7 +89,7 @@ button:active{transform: translateY(1px);}
   border-color: var(--accent);
   box-shadow: 0 0 0 4px var(--ring);
 }
-/*endforms*/
+/*endforms&inout*/
 
 /*errortxt*/
 .form__error {
@@ -115,7 +115,7 @@ button:active{transform: translateY(1px);}
 .home__desc{margin:0; color:var(--muted); font-size:14px;}
 
 .home__card{
-  width:100%; max-width:4px;
+  width:100%; max-width:520px;
   background:var(--panel);
   border:1px solid var(--border);
   border-radius:14px;
@@ -165,3 +165,15 @@ color:var(--muted);font-size:12px;}
   box-shadow: 0 6px 16px rgba(0,0,0,.18);
 }
 /*endhomepage*/
+
+/*PARKSLOGO*/
+.logo2__small{
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  object-fit: cover;
+  display: block;
+  margin:0 auto 8px;
+}
+.logo_card{max-width:520px;}
+/*PARKSLOGO*/
