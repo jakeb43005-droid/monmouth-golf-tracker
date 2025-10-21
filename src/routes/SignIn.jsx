@@ -28,7 +28,7 @@ export default function SignIn() {
       }
       go('/dashboard')
     } catch {
-      setErrorMsg('Network issue — try again in a moment.')
+      setErrorMsg('Network issue... try again in a moment.')
       requestAnimationFrame(() => errorRef.current?.focus())
     } finally {
       setLoading(false)
@@ -39,7 +39,7 @@ export default function SignIn() {
   return (
    <main className="home">
       <section className="home__card logo__card">
-         <img className="logo2__small" src={logo2} alt="Monmouth County Golf" />
+         <img className="logo2__small" src={logo2} alt="Monmouth County Parks"/>
         <h2 style={{margin:0}}>Sign In</h2>
         <form onSubmit={onSubmit} className="form" noValidate>
           <div className="field">
@@ -76,7 +76,6 @@ export default function SignIn() {
               disabled={loading || !canSubmit}>
               {loading ?'Signing in…' : 'Sign In'}
             </button>
-
             <p className="form__meta">
               Don’t have an account? <Link to="/signup">Create one</Link>
             </p>
