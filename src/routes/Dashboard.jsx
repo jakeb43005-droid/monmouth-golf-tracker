@@ -4,7 +4,7 @@ import {Link, useNavigate} from 'react-router-dom'
 export default function Dashboard() {
   const nav = useNavigate()
   const [email, setEmail] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [check, setCheck] = useState(false)
   useEffect(() => {
    (async () => {
     const {data: {user}}  = await supabase.auth.getUser()
@@ -13,25 +13,33 @@ export default function Dashboard() {
       return
     }
     setEmail(user.email ??'')
-    setLoading(false)
+    setCheck(true)
    })()
   })
 
-  async function signOut() {
-    await supabase.auth.signOut()
-    nav('/signin')
-  }
-
-  if(loading) return <div style={{padding:24}}>Loading...</div>
-  return(
-    <div style={{padding: 24, display: 'grid', gap: 10 }}>
-      <h1>Dashboard</h1>
-      <p>Signed in as: {email}</p>
-      <nav style={{display:'grid', gap:10, maxWidth:300}}>
-        <Link to="/record">Record New Round</Link>
-        <Link to="/rounds">View Past Rounds</Link>
-      </nav>
-      <button onClick={signOut} style={{marginTop: 10, width: 150}}>Sign out</button>
-    </div>
+  if(!check) return null
+  return (
+    <main className="home">
+      <section className="home__card dash__card">
+        <header className="dash__header">
+          <div className="dash__logo" aria-hidden>⛳️</div>
+            <div>
+          <h2 className="dash__title">Welcome To Your Dashboard</h2>
+          <p className="dash__subtitle">Signed in as: <strong>{email}</strong></p>
+          </div>
+        </header>
+        <div className="home__actions" style={{marginTop: 12}}>
+          <Link to="/record" className="btn btn--primary">Record Round</Link>
+          <Link to="/rounds" className="btn btn--ghost">View My Rounds</Link>
+        </div>
+         <div style={{marginTop: 12, display:'grid'}}>
+          <button
+            className="btn btn--signoutbold"
+            onClick={async () => {await supabase.auth.signOut(); nav('/signin')}} 
+            Sign Out
+            ></button>
+        </div>
+        </section>
+        </main>
   )
 }

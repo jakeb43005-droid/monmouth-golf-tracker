@@ -29,7 +29,7 @@
   }
 }
 
-html, body, #root {height: 100%;}
+html, body, #root {height: 100%}
 body {
   margin: 0;
   background: var(--bg);
@@ -39,11 +39,11 @@ body {
 }
 
 /*all links*/
-a{color:#646cff; text-decoration:none; font-weight:500;}
+a{color:#646cff; text-decoration:none; font-weight:500}
 a:hover{color:#535bf2;}
 
 /*all headings */
-h1{font-size: clamp(28px, 4vw, 40px); line-height: 1.1; margin: 0 0 8px;}
+h1{font-size: clamp(28px, 4vw, 40px); line-height: 1.1; margin: 0 0 8px}
 
 /* all buttons outline*/
 button {
@@ -58,19 +58,19 @@ button {
   transition: border-color .2s, filter .14s, transform .02s;
 }
 button:hover{border-color:#646cff;}
-button:focus-visible{outline: 4px solid var(--ring); outline-offset: 2px;}
-button:active{transform: translateY(1px);}
+button:focus-visible{outline: 4px solid var(--ring); outline-offset: 2px}
+button:active{transform: translateY(1px)}
 
 @media (prefers-color-scheme: light){
-  button{background:#f9f9f9;}
-  a:hover{color:#747bff;}
+  button{background:#f9f9f9}
+  a:hover{color:#747bff}
 }
 /*endbuttons */
 
 /*forms&input*/
-.form{ display: grid; gap: 14px; margin-top: 10px;}
+.form{ display: grid; gap: 14px; margin-top: 10px}
 .field{display: grid; gap: 6px;}
-.field label{font-size: 20px; color: var(--muted);}
+.field label{font-size: 20px; color: var(--muted)}
 
 .field input {
   height: 100px;
@@ -84,7 +84,7 @@ button:active{transform: translateY(1px);}
 
 .field input::placeholder {
   color:color-mix(in oklab,
-  var(--muted) 70%, transparent);}
+  var(--muted) 70%, transparent)}
 .field input:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 4px var(--ring);
@@ -99,9 +99,9 @@ button:active{transform: translateY(1px);}
 }
 
 /*actions&meta*/
-.form__actions{display: grid; gap: 12px; margin-top: 4px;}
-.form__meta{margin: 0; font-size: 14px; color: var(--muted);}
-.form__meta a {font-weight:620;}
+.form__actions{display: grid; gap: 12px; margin-top: 4px}
+.form__meta{margin: 0; font-size: 14px; color: var(--muted)}
+.form__meta a {font-weight:620}
 
 /*startofhomepage*/
 .home{
@@ -112,7 +112,7 @@ button:active{transform: translateY(1px);}
 }
 .home__header{text-align:center; margin-bottom:16px; }
 .home__title{margin:0 0 8px;}
-.home__desc{margin:0; color:var(--muted); font-size:14px;}
+.home__desc{margin:0; color:var(--muted); font-size:14px}
 
 .home__card{
   width:100%; max-width:520px;
@@ -130,9 +130,9 @@ button:active{transform: translateY(1px);}
   margin-top:9px;
 }
 @media (max-width:420px)
-{.home__actions{grid-template-columns:1fr;}}
+{.home__actions{grid-template-columns:1fr}}
 .home__footnote{margin:14px 2px 4px; 
-color:var(--muted);font-size:12px;}
+color:var(--muted);font-size:12px}
 
 .btn {
   display:inline-flex;
@@ -146,15 +146,15 @@ color:var(--muted);font-size:12px;}
   border:1px solid transparent;
   transition: transform .02s, box-shadow .14s, background .2s, border-color .2s;
 }
-.btn:focus-visible{box-shadow:0 0 0 4px var(--ring); outline:none;}
-.btn:active{transform: translateY(1px);}
+.btn:focus-visible{box-shadow:0 0 0 4px var(--ring); outline:none}
+.btn:active{transform: translateY(1px)}
 
-.btn--primary{background: var(--accent); color:#fff; }
-.btn--primary:hover{filter:brightness(1.03);}
-.btn--primary:active{background:var(--accent-press);}
+.btn--primary{background: var(--accent); color:#fff }
+.btn--primary:hover{filter:brightness(1.03)}
+.btn--primary:active{background:var(--accent-press)}
 
-.btn--ghost{background:transparent; color:var(--text); border:1px solid var(--border);}
-.btn--ghost:hover{background:rgba(255,255,255,.05);}
+.btn--ghost{background:transparent; color:var(--text); border:1px solid var(--border)}
+.btn--ghost:hover{background:rgba(255,255,255,.05)}
 
 .home__logo {
   width: 64px; 
@@ -177,3 +177,28 @@ color:var(--muted);font-size:12px;}
 }
 .logo_card{max-width:520px;}
 /*PARKSLOGO*/
+
+/*Dashboard*/
+.dash__card{max-width: 640px}
+.dash__header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap:12px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.dash__logo {
+  width:48px; height:48px;
+  border-radius: 12px;
+  display: grid; place-items: center;
+  background: color-mix(in oklab,var(--accent) 16%, transparent);
+  border: 1px solid var(--border);
+  font-size: 20px;
+}
+.dash__title {margin: 0}
+.dash__subtitle {margin:2px 0 0; color: var(--muted); font-size: 14px}
+
+.btn--signoutbold{background:#ef4444; color:#fff; border-color:transparent}
+.btn--signoutbold:hover{filter:brightness(1.05)}
+.btn--signoutbold:active{background:#dc2626}
+/*Dasboard end*/

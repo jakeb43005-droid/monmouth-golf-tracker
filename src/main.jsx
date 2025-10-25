@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider, Link } from 'react-router-dom'
+import {createBrowserRouter, RouterProvider, Link} from 'react-router-dom'
 import './index.css'
 
 import SignIn from './routes/SignIn.jsx'
@@ -28,12 +28,11 @@ function Home() {
   )
 }
 
-
 const router = createBrowserRouter([
-  {path: '/',element: <Home/> },
-  {path: '/signin',element: <SignIn/> },
-  {path: '/signup',element: <SignUp/> },
-  {path: '/dashboard',element: <Dashboard/>},
+  {path:'/',element: <Home/>},
+  {path:'/signup',element: <SignUp/>},
+  {path:'/signin',element: <SignIn/>},
+  {path:'/dashboard',element: <Dashboard/>},
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
