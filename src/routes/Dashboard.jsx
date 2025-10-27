@@ -32,12 +32,25 @@ export default function Dashboard() {
           <Link to="/record" className="btn btn--primary">Record Round</Link>
           <Link to="/rounds" className="btn btn--ghost">View My Rounds</Link>
         </div>
-         <div style={{marginTop: 12, display:'grid'}}>
+        <section className="dash__stats">
+          <div className="dash__stat">
+            <span className="dash__stat-label">Rounds</span>
+            <span className="dash__stat-value">N/A</span>
+          </div>
+          <div className="dash__stat">
+            <span className="dash__stat-label">Current HDCAP</span>
+            <span className="dash__stat-value">N/A</span>
+          </div>
+          <div className="dash__stat">
+            <span className="dash__stat-label">Last Course</span>
+            <span className="dash__stat-value"> N/A</span>
+          </div>
+        </section>
+         <div style={{marginTop: 120, display:'grid'}}>
           <button
             className="btn btn--signoutbold"
             onClick={async () => {await supabase.auth.signOut(); nav('/signin')}} 
-            Sign Out
-            ></button>
+            > Sign Out </button>
         </div>
         </section>
         </main>

@@ -108,7 +108,7 @@ button:active{transform: translateY(1px)}
   min-height: 100%;
   display: grid;
   place-items: center;
-  padding: 32px 16px;
+  /*padding: 10px 10px;*/
 }
 .home__header{text-align:center; margin-bottom:16px; }
 .home__title{margin:0 0 8px;}
@@ -126,8 +126,8 @@ button:active{transform: translateY(1px)}
 .home__actions{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:11px;
-  margin-top:9px;
+  gap:16px;
+  margin-top:14px;
 }
 @media (max-width:420px)
 {.home__actions{grid-template-columns:1fr}}
@@ -179,7 +179,13 @@ color:var(--muted);font-size:12px}
 /*PARKSLOGO*/
 
 /*Dashboard*/
-.dash__card{max-width: 640px}
+.dash__card{ 
+  max-width: 960px; 
+  min-height: 300px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+}
 .dash__header {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -197,6 +203,24 @@ color:var(--muted);font-size:12px}
 }
 .dash__title {margin: 0}
 .dash__subtitle {margin:2px 0 0; color: var(--muted); font-size: 14px}
+
+.dash__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 50px;
+}
+@media (max-width: 600px){
+  .dash__stats{grid-template-columns:1fr}
+}
+.dash__stat {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+}
+.dash__stat-label{color: var(--muted); font-size: 13px; gap:10px}
+.dash__stat-value{font-size: 16px; font-weight:300}
 
 .btn--signoutbold{background:#ef4444; color:#fff; border-color:transparent}
 .btn--signoutbold:hover{filter:brightness(1.05)}
