@@ -17,6 +17,24 @@ export default function Dashboard() {
    })()
   })
 
+
+async function testInsert() {
+  const {data:{user}} = await supabase.auth.getUser()
+  if (!user){alert('Not signed in');return}
+  const COURSE_ID = 1; 
+  const today = new Date().toISOString().slice(0,10)
+  const {error} = await supabase.from('scores').insert([{
+    user_id: user.id,
+    course_id: COURSE_ID,
+    played_on: today,
+    strokes: 85
+  }])
+  if (error) alert(error.message)
+  else alert(' Test round saved')
+}
+
+
+
   if(!check) return null
   return (
     <main className="home">
@@ -51,6 +69,8 @@ export default function Dashboard() {
             className="btn btn--signoutbold"
             onClick={async () => {await supabase.auth.signOut(); nav('/signin')}} 
             > Sign Out </button>
+            <button type="button" className="btn btn--ghost" onClick={testInsert}>
+             Run Test Insert </button>
         </div>
         </section>
         </main>
