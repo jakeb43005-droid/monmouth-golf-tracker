@@ -21,7 +21,7 @@ export default function Dashboard() {
 async function testInsert() {
   const {data:{user}} = await supabase.auth.getUser()
   if (!user){alert('Not signed in');return}
-  const COURSE_ID = 1; 
+  const COURSE_ID = 3; 
   const today = new Date().toISOString().slice(0,10)
   const {error} = await supabase.from('scores').insert([{
     user_id: user.id,

@@ -8,6 +8,8 @@ import SignUp from './routes/SignUp.jsx'
 import Dashboard from './routes/Dashboard.jsx'
 import logo from './assets/logo.png'
 import RecordRound from './routes/RecordRound.jsx'
+import ViewRounds from './routes/ViewRounds.jsx'
+
 
 function Home() {
   return (
@@ -35,6 +37,7 @@ const router = createBrowserRouter([
   {path:'/signin',element: <SignIn/>},
   {path:'/dashboard',element: <Dashboard/>},
   {path:'/record', element: <RecordRound/>},
+  {path:'/rounds', element: <ViewRounds/>}
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
