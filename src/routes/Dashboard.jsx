@@ -27,7 +27,7 @@ async function testInsert() {
     user_id: user.id,
     course_id: COURSE_ID,
     played_on: today,
-    strokes: 85
+    strokes: 60
   }])
   if (error) alert(error.message)
   else alert(' Test round saved')

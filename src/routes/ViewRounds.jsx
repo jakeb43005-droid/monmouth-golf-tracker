@@ -19,12 +19,12 @@ export default function Rounds() {
         .limit(10)
        if(error) {setErr(error.message); return}
 
-      setPast((date || []).map(uid => ({
+      setPast((data || []).map(uid => ({
         id: uid.id,
         date: uid.played_on,
         course: uid.courses?.name ?? '—',
         par: uid.courses?.par ?? '—',
-        strokes: uid.strokes,
+        strokes: uid.strokes
       })))})()
     },[nav])
 

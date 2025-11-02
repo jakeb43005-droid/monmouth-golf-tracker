@@ -226,3 +226,17 @@ color:var(--muted);font-size:12px}
 .btn--signoutbold:hover{filter:brightness(1.05)}
 .btn--signoutbold:active{background:#dc2626}
 /*Dasboard end*/
+
+.field select{
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--text);
+  outline: none;
+}
+.field select:focus{
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--ring);
+}
