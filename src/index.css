@@ -222,11 +222,12 @@ color:var(--muted);font-size:12px}
 .dash__stat-label{color: var(--muted); font-size: 13px; gap:10px}
 .dash__stat-value{font-size: 16px; font-weight:300}
 
-.btn--signoutbold{background:#ef4444; color:#fff; border-color:transparent}
+.btn--signoutbold{background:#ef4444; color:#fff; border-color:transparent;}
 .btn--signoutbold:hover{filter:brightness(1.05)}
 .btn--signoutbold:active{background:#dc2626}
 /*Dasboard end*/
 
+/*record and view rounds*/
 .field select{
   height: 40px;
   padding: 0 12px;

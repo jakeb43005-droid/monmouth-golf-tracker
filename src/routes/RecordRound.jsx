@@ -58,10 +58,10 @@ export default function RecordRound() {
   return (
      <main className="home">
       <section className="home__card" style={{maxWidth: 560}}>
-        <h2 style={{ margin: 0}}>Record Round</h2>
+        <h2 style={{margin:0}}>Record Round</h2>
 
         {selectedCourse && (
-          <p className="form__meta" style={{ marginTop: 6 }}>
+          <p className="form__meta" style={{marginTop: 6}}>
             Course: <strong>{selectedCourse.name}</strong> · Par <strong>{selectedCourse.par}</strong>
             {strokes && selectedCourse.par != null ? (
               <> · To Par: <strong>{Number(strokes) - Number(selectedCourse.par)}</strong></>
@@ -77,8 +77,7 @@ export default function RecordRound() {
               value={courseId}
               onChange={(e) => setCourseId(e.target.value)}
               required
-              disabled={loading || !courses.length}
-            >
+              disabled={loading || !courses.length}  >
               <option value="">{courses.length ? 'Select course…' : 'Loading courses…'}</option>
               {courses.map(c => (
                 <option key={c.id} value={c.id}>{c.name} (Par {c.par})</option>
@@ -113,15 +112,13 @@ export default function RecordRound() {
               disabled={loading}
             />
           </div>
-
           {err && <p className="form__error">{err}</p>}
-
           <div className="form__actions">
             <button className="btn btn--primary" type="submit" disabled={loading || !canSubmit}>
               {loading ? 'Saving…' : 'Save Round'}
             </button>
             <p className="form__meta">or <Link to="/dashboard">cancel</Link></p>
-          </div>
+          </div >
         </form>
       </section>
     </main>
