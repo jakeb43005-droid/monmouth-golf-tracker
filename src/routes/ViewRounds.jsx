@@ -1,11 +1,12 @@
 import {useEffect, useState} from 'react'
-import {Routes, useNavigate} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import {supabase} from '../lib/supabase'
 
 export default function Rounds() {
   const nav = useNavigate()
-  const [past, setPast] = useState([])
+  const [rows, setRows] = useState([])
   const [err, setErr] = useState('')
+  const[loading, setLoading] = useState(true)
 
   useEffect(() => {
     (async() => {
@@ -28,27 +29,48 @@ export default function Rounds() {
       })))})()
     },[nav])
 
-  return (
+ return (
     <main className="home">
-      <section className="home__card" style={{maxWidth: 420}}>
-        <h2 style={{margin: 0}}>View Rounds TEST</h2>
-        {err && <p className="form__error">{err}</p>}
-        {!past.length && !err && (
-          <p className="form__meta" style={{marginTop: 8}}>No rounds yet.</p>
+      <section className="home__card" style={{ maxWidth: 720 }}>
+        <h2 style={{ margin: 0 }}>My Rounds</h2>
+        {err && <p className="form__error" style={{ marginTop: 8 }}>{err}</p>}
+        {loading && !err && <p className="form__meta" style={{ marginTop: 8 }}>Loading…</p>}
+        {!loading && !rows.length && !err && (
+          <p className="form__meta" style={{ marginTop: 8 }}>
+            No rounds yet. <Link to="/record">Record your first round</Link>.
+          </p>
         )}
-        <ul style={{listStyle:'none', padding: 0, margin: 12}}>
-          {past.map(row => (
-            <li key={Routes.id} style={{
-              padding: '10px 12px',
-              border: '1px solid var(--border)',
-              borderRadius: 10,
-              marginBottom: 8
-            }}>
-              <strong>{row.course}</strong> — {row.strokes} on {new Date(row.date).toLocaleDateString()}
-              {'·'}Par {row.par}
-            </li>
-          ))}
-        </ul>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 12 }}>
+          {rows.map((r) => {
+            const courseName = r.courses?.name ?? 'Course'
+            const par = r.courses?.par ?? null
+            const toPar = par != null ? r.strokes - par : null
+            const dateStr = new Date(r.played_on).toLocaleDateString()
+            return (
+              <li
+                key={r.id}
+                style={{
+                  padding: '10px 12px',
+                  border: '1px solid var(--border)',
+                  borderRadius: 10,
+                  marginBottom:8,
+                  display: 'grid',
+                  gap: 4,
+                }} >
+                <div style={{display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center'}}>
+                  <strong>{courseName}</strong>
+                  <span className="form__meta">{dateStr}</span>
+                </div>
+                <div className="form__meta">
+                  Par <strong>{par ?? '—'}</strong> · Strokes <strong>{r.strokes}</strong>
+                  {toPar !== null && (<>
+                      {' '}· To-Par <strong>{toPar > 0 ? `+${toPar}` : toPar}</strong></>
+                  )} </div> </li>
+            )})}</ul>
+        <div className="home__actions" style={{marginTop: 8}}>
+          <Link to="/record" className="btn btn--primary">Record Another</Link>
+          <Link to="/dashboard" className="btn btn--ghost">Back to Dashboard</Link>
+        </div>
       </section>
     </main>
   )
