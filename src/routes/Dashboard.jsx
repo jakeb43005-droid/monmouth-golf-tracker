@@ -1,10 +1,15 @@
 import {useEffect, useState} from 'react'
 import {supabase} from '../lib/supabase'
 import {Link, useNavigate} from 'react-router-dom'
+import { toDifferential, computeIndex} from '../lib/handicap'
 export default function Dashboard() {
   const nav = useNavigate()
   const [email, setEmail] = useState('')
-  const [check, setCheck] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [rounds, setRounds] = useState(0)
+  const [lastCourse, setLastCourse] = useState('N/A')
+  const [indexVal, setIndexVal] = useState(null)
+
   useEffect(() => {
    (async () => {
     const {data: {user}}  = await supabase.auth.getUser()
@@ -13,11 +18,35 @@ export default function Dashboard() {
       return
     }
     setEmail(user.email ??'')
-    setCheck(true)
+    setLoading(true)
+    const { data: rows, error} = await supabase
+    .from('scores')
+    .select('played_on, strokes, courses (name, course_rating, course_slope)')
+    .order('played_on', {ascending: false})
+    .limit(20)
+
+    if(error){
+      setRounds(0)
+      setLastCourse('N/A')
+      setIndexVal(null)
+      setLoading(false)
+      return
+    }
+
+    const{count} = await supabase
+    .from('scores')
+    .select('id', {count: 'exact', head: true})
+    setRounds(count ?? (rows?.length ?? 0))
+
+    if(rows && rows.length) setLastCourse(rows[0].courses?.name ?? 'N/A')
+
+    const diffs = (rows || []).map(e =>
+      toDifferential(e.strokes, e.courses?.course_rating, e.courses?.course_slope))
+    setIndexVal(computeIndex(diffs))
+    setLoading(false)
    })()
   })
 
-  if(!check) return null
   return (
     <main className="home">
       <section className="home__card dash__card">
@@ -33,16 +62,16 @@ export default function Dashboard() {
         </div>
         <section className="dash__stats">
           <div className="dash__stat">
-            <span className="dash__stat-label">Rounds</span>
-            <span className="dash__stat-value">N/A</span>
+            <span className="dash__stat-label">Total Rounds:  </span>
+            <span className="dash__stat-value">{rounds}</span>
           </div>
           <div className="dash__stat">
-            <span className="dash__stat-label">Current HDCAP</span>
-            <span className="dash__stat-value">N/A</span>
+            <span className="dash__stat-label">Current HDCAP: </span>
+            <span className="dash__stat-value">{indexVal == null ? '-' : indexVal.toFixed(1)}</span>
           </div>
           <div className="dash__stat">
-            <span className="dash__stat-label">Last Course</span>
-            <span className="dash__stat-value"> N/A</span>
+            <span className="dash__stat-label">Last Course: </span>
+            <span className="dash__stat-value">{lastCourse}</span>
           </div>
         </section>
          <div style={{marginTop: 120, display:'grid', placeItems:'center'}}>

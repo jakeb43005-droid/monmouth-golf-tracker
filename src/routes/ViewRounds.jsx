@@ -43,11 +43,11 @@ export default function Rounds() {
       setLoadingMore(true)
       const nextPage = page + 1
       const start = nextPage * pages
-      const to = from + pages-1
+      const end = start + pages-1
 
       const{data, error} = await supabase
       .from('scores')
-      .select('id, played_on. strokes, courses (name, par)')
+      .select('id, played_on, strokes, courses (name, par)')
       .order('played_on', {ascending: false})
       .range(start, end)
 
@@ -80,7 +80,7 @@ export default function Rounds() {
             const courseName = r.courses?.name ?? 'Course'
             const par = r.courses?.par ?? null
             const toPar = par != null ? r.strokes - par : null
-            const dateStr = new Date(r.played_on).toLocaleDateString()
+            const dateStr = r.played_on
             return (
               <li
                 key={r.id}
