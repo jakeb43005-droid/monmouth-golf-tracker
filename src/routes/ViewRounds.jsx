@@ -86,7 +86,7 @@ export default function Rounds() {
                 key={r.id}
                 style={{
                   padding: '10px 12px',
-                  border: '1px solid var(--border)',
+                  border:'1px solid var(--border)',
                   borderRadius: 10,
                   marginBottom:8,
                   display: 'grid',
@@ -95,6 +95,13 @@ export default function Rounds() {
                 <div style={{display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center'}}>
                   <strong>{courseName}</strong>
                   <span className="form__meta">{dateStr}</span>
+                  <Link
+                    to={`/rounds/${r.id}/edit`}
+                    className="btn btn--ghost"
+                    style={{height: 32, padding: '0 10px'}}
+                  >
+                    Edit
+                  </Link>
                 </div>
                 <div className="form__meta">
                   Par <strong>{par ?? '—'}</strong> · Strokes <strong>{r.strokes}</strong>
