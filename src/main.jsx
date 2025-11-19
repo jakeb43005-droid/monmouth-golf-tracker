@@ -39,7 +39,7 @@ const router = createBrowserRouter([
   {path:'/dashboard',element: <Dashboard/>},
   {path:'/record', element: <RecordRound/>},
   {path:'/rounds', element: <ViewRounds/>},
-  {path:'/rounds/.id/edit', element: <EditRound/>}
+  {path:'/rounds/:id/edit', element: <EditRound/>}
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
