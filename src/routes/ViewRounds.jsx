@@ -61,8 +61,7 @@ export default function Rounds() {
     setLoadingMore(false)
   }
 }
-
-  const more = total == null ? true: rows.length < total
+ const more = total == null ? true: rows.length < total
 
  return (
     <main className="home">
@@ -113,13 +112,12 @@ export default function Rounds() {
           <Link to="/record" className="btn btn--primary">Record Another</Link>
           <Link to="/dashboard" className="btn btn--ghost">Back to Dashboard</Link>
         </div>
-
         {!loading && more && (
           <div className="form__actions" style={{marginTop: 8}}>
             <button className="btn btn--ghost" onClick={loadMore} disabled={loadingMore}>
               {loadingMore ? 'Loading...': 'Load more'}
             </button>
-            {total != null && (
+              {total != null && (
               <p className="form__meta">Showing {rows.length} of {total}</p>
             )}
           </div>

@@ -21,7 +21,7 @@ export function computeIndex(diffs) {
   else if (n <= 16) { take = 5 }
   else if (n <= 18) { take = 6 }
   else if (n === 19) { take = 7 }
-  else { take = 8 } // n >= 20
+  else { take = 8 } 
 
   const avg = clean.slice(0, take).reduce((s,x)=>s+x,0) / take
   return Math.round((avg + adjust) * 10) / 10

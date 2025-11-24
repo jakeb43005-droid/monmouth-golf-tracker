@@ -10,7 +10,7 @@ import logo from './assets/logo.png'
 import RecordRound from './routes/RecordRound.jsx'
 import ViewRounds from './routes/ViewRounds.jsx'
 import EditRound from './routes/EditRound.jsx'
-
+import Leaderboard from './routes/Leaderboard.jsx'
 
 function Home() {
   return (
@@ -39,7 +39,8 @@ const router = createBrowserRouter([
   {path:'/dashboard',element: <Dashboard/>},
   {path:'/record', element: <RecordRound/>},
   {path:'/rounds', element: <ViewRounds/>},
-  {path:'/rounds/:id/edit', element: <EditRound/>}
+  {path:'/rounds/:id/edit', element: <EditRound/>},
+  {path:'/leaderboard', element: <Leaderboard/>}
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
