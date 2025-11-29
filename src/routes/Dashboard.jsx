@@ -69,7 +69,8 @@ export default function Dashboard() {
         <div className="home__actions" style={{marginTop: 12}}>
           <Link to="/record" className="btn btn--primary">Record Round</Link>
           <Link to="/rounds" className="btn btn--ghost">View My Rounds</Link>
-          <Link to="/leaderboard" className="btn btn--ghost">Leaderboard</Link>
+          <Link to="/leaderboard" className="btn btn--ghost">HDCAP Leaderboard</Link>
+          <Link to="/strokes_leaderboard" className="btn btn--ghost">Strokes Leaderboard</Link>
         </div>
         <section className="dash__stats">
           <div className="dash__stat">

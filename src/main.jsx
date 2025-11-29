@@ -11,6 +11,7 @@ import RecordRound from './routes/RecordRound.jsx'
 import ViewRounds from './routes/ViewRounds.jsx'
 import EditRound from './routes/EditRound.jsx'
 import Leaderboard from './routes/Leaderboard.jsx'
+import StrokesLeaderboard from './routes/StrokesLeaderboard.jsx'
 
 function Home() {
   return (
@@ -40,7 +41,8 @@ const router = createBrowserRouter([
   {path:'/record', element: <RecordRound/>},
   {path:'/rounds', element: <ViewRounds/>},
   {path:'/rounds/:id/edit', element: <EditRound/>},
-  {path:'/leaderboard', element: <Leaderboard/>}
+  {path:'/leaderboard', element: <Leaderboard/>},
+  {path:'/strokes_leaderboard',element: <StrokesLeaderboard/>}
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
