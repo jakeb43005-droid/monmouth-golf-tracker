@@ -65,12 +65,13 @@ export default function Dashboard() {
             <div>
           <h2 className="dash__title">Welcome To Your Dashboard</h2>
           <p className="dash__subtitle">Signed in as: <strong>{email}</strong></p>
-          </div>    </header>
+          </div></header>
         <div className="home__actions" style={{marginTop: 12}}>
           <Link to="/record" className="btn btn--primary">Record Round</Link>
           <Link to="/rounds" className="btn btn--ghost">View My Rounds</Link>
           <Link to="/leaderboard" className="btn btn--ghost">HDCAP Leaderboard</Link>
           <Link to="/strokes_leaderboard" className="btn btn--ghost">Strokes Leaderboard</Link>
+          <Link to="/profile" className="btn btn--ghost">Profile</Link>
         </div>
         <section className="dash__stats">
           <div className="dash__stat">
