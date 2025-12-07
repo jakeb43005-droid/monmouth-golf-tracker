@@ -65,43 +65,50 @@ export default function Profile() {
   }, [nav])
 
   async function onSubmit(e) {
-    e.preventDefault()
-    setErr('')
-    const v = validate(displayName.trim())
-    if (v) {
-      setErr(v)
-      requestAnimationFrame(() => errorRef.current?.focus())
+  e.preventDefault()
+  setErr('')
+
+  const name = displayName.trim()
+  if (!name || name.length < 3 || name.length > 20 || !/^[a-z0-9_]+$/i.test(name)) {
+    setErr('3–20 chars, letters/numbers/_ only.')
+    return
+  }
+
+  setSaving(true)
+  try {
+    const {data: {user}} = await supabase.auth.getUser()
+    if (!user) {nav('/signin'); return}
+
+    const {error} = await supabase
+      .from('profiles')
+      .upsert(
+        {
+          user_id: user.id,
+          display_name: name,
+          updated_at: new Date().toISOString(),
+        },
+        {onConflict: 'user_id'})
+
+    if (error) {
+      if (error.code === '23505') setErr('That name is taken. Try another.')
+      else setErr(error.message)
       return
     }
 
-    setSaving(true)
-    try {
-      const {data: {user}} = await supabase.auth.getUser()
-      if (!user) {nav('/signin'); return}
+    const {data: prof} = await supabase
+      .from('profiles')
+      .select('display_name')
+      .eq('user_id', user.id)
+      .maybeSingle()
 
-      const {error} = await supabase
-        .from('profiles')
-        .update({
-          display_name: displayName.trim(),
-          updated_at: new Date().toISOString(),
-        })
-        .eq('user_id', user.id)
+    if (prof?.display_name) setDisplayName(prof.display_name)
 
-      if (error) {
-        if(error.code === '23505'){
-          setErr('That name is taken. Try another.')
-        }else{
-          setErr(error.message)
-        }
-        requestAnimationFrame(() => errorRef.current?.focus())
-        return
-      }
-
-      nav('/dashboard')
-    }finally{
-      setSaving(false)
-    }
+    nav('/dashboard') 
+  } finally {
+    setSaving(false)
   }
+}
+
   if (loading) return <div style={{padding: 24}}>Loading…</div>
 return(
     <main className="home">

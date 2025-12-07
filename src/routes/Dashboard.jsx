@@ -9,6 +9,7 @@ export default function Dashboard() {
   const [rounds, setRounds] = useState(0)
   const [lastCourse, setLastCourse] = useState('N/A')
   const [indexVal, setIndexVal] = useState(null)
+  const [displayName, setDisplayName] = useState('')
 
   useEffect(() => {
    (async () => {
@@ -19,6 +20,21 @@ export default function Dashboard() {
     }
     setEmail(user.email ??'')
     setLoading(true)
+
+     const {data: profile, error: pErr} = await supabase
+        .from('profiles')
+        .select('display_name')
+        .eq('user_id', user.id)
+        .maybeSingle()
+
+      let nameToUse = profile?.display_name
+      if (!pErr && !nameToUse) {
+        nameToUse = (user.email?.split('@')[0] || 'golfer')
+          .replace(/[^a-z0-9_]/gi, '')
+          .slice(0, 20) || 'golfer'
+      }
+      if (nameToUse) setDisplayName(nameToUse)
+
     const { data: rows, error} = await supabase
     .from('scores')
     .select('played_on, strokes, courses (name, course_rating, course_slope)')
@@ -50,28 +66,37 @@ export default function Dashboard() {
 
     await supabase.from('profiles').upsert({
         user_id: user.id,
-        display_name: display,
+        display_name: nameToUse,
         handicap_index: index,                         
-        rounds_count: count ?? (rows?.length ?? 0),
+        rounds_count: count??(rows?.length ?? 0),
         updated_at: new Date().toISOString(),
       }, {onConflict: 'user_id'})
     setLoading(false)
    })()})
+   
   return (
     <main className="home">
+      <nav className="topbar">
+        <Link to="/profile"
+        className = "avatar-btn"
+        aria-label="Open Profile Page"
+        title="Profile"
+        >
+          {(displayName||email|| 'U').trim().charAt(0).toUpperCase()}
+        </Link>
+      </nav>
       <section className="home__card dash__card">
         <header className="dash__header">
           <div className="dash__logo" aria-hidden>⛳️</div>
             <div>
           <h2 className="dash__title">Welcome To Your Dashboard</h2>
-          <p className="dash__subtitle">Signed in as: <strong>{email}</strong></p>
+          <p className="dash__subtitle">  Display name: <strong>{displayName || '—'}</strong> · Email: <strong>{email}</strong></p>
           </div></header>
         <div className="home__actions" style={{marginTop: 12}}>
           <Link to="/record" className="btn btn--primary">Record Round</Link>
           <Link to="/rounds" className="btn btn--ghost">View My Rounds</Link>
           <Link to="/leaderboard" className="btn btn--ghost">HDCAP Leaderboard</Link>
           <Link to="/strokes_leaderboard" className="btn btn--ghost">Strokes Leaderboard</Link>
-          <Link to="/profile" className="btn btn--ghost">Profile</Link>
         </div>
         <section className="dash__stats">
           <div className="dash__stat">
