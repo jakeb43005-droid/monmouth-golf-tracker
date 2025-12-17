@@ -1,0 +1,160 @@
+--This is very messy. This just creates some of the tables and interacts it with react so
+-- people can input data and store it in supabase
+-- Most of the backend preset data like the courses info I input manually
+
+create table if not exists public.courses(
+  id bigserial primary key,
+  name text not null,
+  description text,
+  par int check (par between 27 and 200)
+);
+
+create unique index if not exists courses_name_key on public.courses(name);
+
+alter table public.courses
+  add column if not exists course_rating numeric(4,1),
+  add column if not exists course_slope   int check (course_slope between 55 and 155);
+
+insert into public.courses (name, description, par, course_rating, course_slope)
+values
+  ('Shark River', 'Monmouth County course', 71, 71.2, 125),
+  ('Hominy Hill', 'Championship course', 72, 72.9, 135),
+  ('Bellaire',    'Casual course', 60, 60.0, 100)
+on conflict (name) do update
+set par = excluded.par,
+    course_rating = excluded.course_rating,
+    course_slope  = excluded.course_slope;
+
+create table if not exists public.scores(
+  id bigserial primary key,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  course_id bigint not null references public.courses(id) on delete cascade,
+  played_on date not null,
+  strokes int not null check (strokes > 0 and strokes < 200),
+  created_at timestamptz default now()
+);
+
+create index if not exists scores_user_played_on_idx on public.scores (user_id, played_on desc, id desc);
+create index if not exists scores_course_idx on public.scores (course_id);
+
+alter table public.scores enable row level security;
+
+drop policy if exists "Read own scores"  on public.scores;
+drop policy if exists "Insert own scores" on public.scores;
+
+create policy "Read own scores"
+  on public.scores for select
+  using (auth.uid() = user_id);
+
+create policy "Insert own scores"
+  on public.scores for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Update own scores" on public.scores;
+create policy "Update own scores"
+  on public.scores for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+create table if not exists public.profiles (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  display_name text not null,
+  handicap_index numeric(4,1),
+  rounds_count int default 0,
+  updated_at timestamptz default now()
+);
+
+alter table public.profiles enable row level security;
+
+drop policy if exists "profiles read" on public.profiles;
+create policy "profiles read"
+  on public.profiles for select
+  using (true);
+
+drop policy if exists "profiles upsert own" on public.profiles;
+create policy "profiles upsert own"
+  on public.profiles for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "profiles update own" on public.profiles;
+create policy "profiles update own"
+  on public.profiles for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+  create index if not exists scores_course_date_idx on public.scores (course_id, played_on);
+create index if not exists scores_user_idx on public.scores (user_id);
+
+-- Leaderboard
+create or replace function public.strokes_leaderboard(
+  p_course_id bigint,
+  p_period text  
+)
+returns table (
+  user_id uuid,
+  display_name text,
+  best_strokes int,
+  rounds_in_period int
+)
+language sql
+stable
+security definer
+as $$
+  with window_start as (
+    select case lower(p_period)
+             when 'day'   then current_date
+             when 'week'  then current_date - interval '6 days'
+             when 'month' then date_trunc('month', current_date)::date
+             else current_date - interval '100 years'
+           end as d
+  )
+  select
+    s.user_id,
+    coalesce(p.display_name, left(s.user_id::text, 8)) as display_name,
+    min(s.strokes) as best_strokes,
+    count(*) as rounds_in_period
+  from public.scores s
+  join public.profiles p on p.user_id = s.user_id
+  cross join window_start ws
+  where s.course_id = p_course_id
+    and s.played_on >= ws.d
+  group by s.user_id, p.display_name
+  order by best_strokes asc, rounds_in_period desc
+  limit 50;
+$$;
+
+grant execute on function public.strokes_leaderboard(bigint, text) to anon, authenticated;
+
+create unique index if not exists profiles_display_name_unique
+  on public.profiles (lower(display_name));
+
+  alter table public.profiles enable row level security;
+
+drop policy if exists "profiles read" on public.profiles;
+create policy "profiles read"
+  on public.profiles for select
+  using (true);
+
+drop policy if exists "profiles upsert own" on public.profiles;
+create policy "profiles upsert own"
+  on public.profiles for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "profiles update own" on public.profiles;
+create policy "profiles update own"
+  on public.profiles for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+
+--to create a few courses this should work:
+insert into public.courses(name, description, par, course_rating, course_slope)
+values
+  ('Shark River',  'Neptune NJ course',      71, 71.2, 125),
+  ('Hominy Hill',  'Colts Neck NJ course',   72, 72.9, 135),
+  ('Bellaire',     'Wall NJ course',         60, 60.0, 100),
+  ('Howell Park',  'Howell NJ course',       72, 71.5, 128)
+on conflict (name) do update
+set description   = excluded.description,
+    par           = excluded.par,
+    course_rating = excluded.course_rating,
+    course_slope  = excluded.course_slope;
